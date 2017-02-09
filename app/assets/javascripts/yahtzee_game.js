@@ -71,6 +71,7 @@
 
         self.usedPlays.push(play);
         $(this).prop('disabled', 'disabled');
+        $('input[type=hidden][name="' + $(this).attr('name') + '"]').val(1);
         $(this).siblings('button[name=play_' + play + ']').prop('disabled', 'disabled').hide();
 
         self.handleEndGame();

@@ -25,7 +25,7 @@ class GamesController < ApplicationController
 
     respond_to do |format|
       if @game.save
-        format.html { redirect_to @game, notice: 'Game was successfully created.' }
+        format.html { redirect_to high_scores_path, notice: 'Game was successfully created.' }
       else
         format.html { render :new }
       end
@@ -59,6 +59,10 @@ class GamesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def game_params
-      params.require(:game).permit(:aces, :twos, :threes, :fours, :fives, :sixes, :upper_total, :three_of_a_kind, :four_of_a_kind, :full_house, :sm_straight, :lg_straight, :yahtzee, :chance, :bonuses, :upper_total, :lower_total, :final_score, :is_finished, :player_name)
+      params.require(:game).permit(:aces, :twos, :threes, :fours, :fives, :sixes, :upper_total, :three_of_a_kind,
+        :four_of_a_kind, :full_house, :sm_straight, :lg_straight, :yahtzee, :chance, :bonuses, :upper_total, :lower_total,
+        :final_score, :is_finished, :player_name, :cross_out_aces, :cross_out_twos, :cross_out_threes, :cross_out_fours,
+        :cross_out_fives, :cross_out_sixes, :cross_out_three_of_a_kind, :cross_out_four_of_a_kind, :cross_out_full_house,
+        :cross_out_sm_straight, :cross_out_lg_straight, :cross_out_yahtzee, :cross_out_chance)
     end
 end
