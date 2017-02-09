@@ -1,0 +1,72 @@
+@mixin die-background($imgpath, $position: 0 0, $repeat: no-repeat) {
+  background: {
+    image: image-url($imgpath);
+    position: $position;
+    repeat: $repeat;
+  }
+
+  height: 62px;
+  width: 62px;
+}
+
+.new_game,
+.yahtzee-dice-container {
+  display: inline-block;
+  width: 49%;
+}
+
+.yahtzee-dice-container {
+  padding-top: 10px;
+  vertical-align: top;
+}
+
+.die {
+  cursor: pointer;
+  display: inline-block;
+  margin-right: 5px;
+}
+
+.die-one {
+  @include die-background('dice.png', -1px -1px);
+}
+.die-two {
+  @include die-background('dice.png', -65px -1px);
+}
+.die-three {
+  @include die-background('dice.png', -129px -1px);
+}
+.die-four {
+  @include die-background('dice.png', -193px -1px);
+}
+.die-five {
+  @include die-background('dice.png', -257px -1px);
+}
+.die-six {
+  @include die-background('dice.png', -321px -1px);
+}
+.held-die-one {
+  @include die-background('dice.png', -1px -65px);
+}
+.held-die-two {
+  @include die-background('dice.png', -65px -65px);
+}
+.held-die-three {
+  @include die-background('dice.png', -129px -65px);
+}
+.held-die-four {
+  @include die-background('dice.png', -193px -65px);
+}
+.held-die-five {
+  @include die-background('dice.png', -257px -65px);
+}
+.held-die-six {
+  @include die-background('dice.png', -321px -65px);
+}
+
+input[name=commit] {
+  display: none;
+}
+
+.play-button {
+  display: none;
+}
