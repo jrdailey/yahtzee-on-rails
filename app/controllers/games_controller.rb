@@ -59,6 +59,6 @@ class GamesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def game_params
-      params.require(:game).permit(:aces, :twos, :threes, :fours, :fives, :sixes, :upper_total, :three_of_a_kind, :four_of_a_kind, :full_house, :sm_straight, :lg_straight, :yahtzee, :chance, :bonuses, :upper_total, :final_score, :is_finished, :player_name)
+      params.require(:game).permit(:aces, :twos, :threes, :fours, :fives, :sixes, :upper_total, :three_of_a_kind, :four_of_a_kind, :full_house, :sm_straight, :lg_straight, :yahtzee, :chance, :bonuses, :upper_total, :lower_total, :final_score, :is_finished, :player_name)
     end
 end

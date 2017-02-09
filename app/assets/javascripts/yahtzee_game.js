@@ -1,317 +1,383 @@
-var Yahtzee = {
-  rollNumber: 0,
+(function() {
+  var Yahtzee = {
+    rollNumber: 0,
 
-  usedPlays: [],
+    usedPlays: [],
 
-  scores: {
-    'aces': function(diceMap) {
-      return diceMap[1];
+    scores: {
+      'aces': function(diceMap) {
+        return diceMap[1];
+      },
+      'twos': function(diceMap) {
+        return diceMap[2] * 2;
+      },
+      'threes': function(diceMap) {
+        return diceMap[3] * 3;
+      },
+      'fours': function(diceMap) {
+        return diceMap[4] * 4;
+      },
+      'fives': function(diceMap) {
+        return diceMap[5] * 5;
+      },
+      'sixes': function(diceMap) {
+        return diceMap[6] * 6;
+      },
+      'three_of_a_kind': function(diceMap) {
+        return Yahtzee.sumAllDice(diceMap);
+      },
+      'four_of_a_kind': function(diceMap) {
+        return Yahtzee.sumAllDice(diceMap);
+      },
+      'full_house': function(diceMap) {
+        return 25;
+      },
+      'sm_straight': function(diceMap) {
+        return 30;
+      },
+      'lg_straight': function(diceMap) {
+        return 40;
+      },
+      'yahtzee': function(diceMap) {
+        return 50;
+      },
+      'bonuses': function(diceMap) {
+        return (parseInt($('#game_bonuses').val()) || 0) + 1;
+      },
+      'chance': function(diceMap) {
+        return Yahtzee.sumAllDice(diceMap);
+      }
     },
-    'twos': function(diceMap) {
-      return diceMap[2] * 2;
-    },
-    'threes': function(diceMap) {
-      return diceMap[3] * 3;
-    },
-    'fours': function(diceMap) {
-      return diceMap[4] * 4;
-    },
-    'fives': function(diceMap) {
-      return diceMap[5] * 5;
-    },
-    'sixes': function(diceMap) {
-      return diceMap[6] * 6;
-    },
-    'three_of_a_kind': function(diceMap) {
-      return Yahtzee.sumAllDice(diceMap);
-    },
-    'four_of_a_kind': function(diceMap) {
-      return Yahtzee.sumAllDice(diceMap);
-    },
-    'full_house': function(diceMap) {
-      return 25;
-    },
-    'sm_straight': function(diceMap) {
-      return 30;
-    },
-    'lg_straight': function(diceMap) {
-      return 40;
-    },
-    'yahtzee': function(diceMap) {
-      return 50;
-    },
-    'bonuses': function(diceMap) {
-      return 100;
-    },
-    'chance': function(diceMap) {
-      return Yahtzee.sumAllDice(diceMap);
-    }
-  },
 
-  sumAllDice: function(diceMap) {
-    var score = 0;
+    sumAllDice: function(diceMap) {
+      var score = 0;
 
-    if (diceMap[1]) score += diceMap[1];
-    if (diceMap[2]) score += diceMap[2] * 2;
-    if (diceMap[3]) score += diceMap[3] * 3;
-    if (diceMap[4]) score += diceMap[4] * 4;
-    if (diceMap[5]) score += diceMap[5] * 5;
-    if (diceMap[6]) score += diceMap[6] * 6;
+      if (diceMap[1]) score += diceMap[1];
+      if (diceMap[2]) score += diceMap[2] * 2;
+      if (diceMap[3]) score += diceMap[3] * 3;
+      if (diceMap[4]) score += diceMap[4] * 4;
+      if (diceMap[5]) score += diceMap[5] * 5;
+      if (diceMap[6]) score += diceMap[6] * 6;
 
-    return score;
-  },
+      return score;
+    },
 
-  init: function() {
-    var self = this;
+    init: function() {
+      var self = this;
 
-    $('button[name=roll-dice]').click(self.rollDice);
-    $('.die').click(self.toggleHold);
-    $('.cross-out').click(function() {
-      var play = $(this).attr('id').replace(/game_/, '');
+      $('button[name=roll-dice]').click(self.rollDice);
+      $('.die').click(self.toggleHold);
+      $('.cross-out').click(function() {
+        var play = $(this).attr('id').replace(/game_cross_out_/, '');
 
-      Yahtzee.usedPlays.push(play);
-      $(this).prop('disabled', 'disabled');
-    });
-    $('.play-button').click(function() {
-      var play = $(this).attr('name').replace(/play_/, ''),
-          score = Yahtzee.doScore(play, Yahtzee.getDiceMap());
+        Yahtzee.usedPlays.push(play);
+        $(this).prop('disabled', 'disabled');
+        $(this).siblings('button[name=play_' + play + ']').prop('disabled', 'disabled').hide();
 
-      $(this).prop('disabled', 'disabled').hide();
-      $(this).parents('td').first().find('input.cross-out').prop('disabled', 'disabled');
-      $(this).parents('td').first().find('input#game_' + play).val(score);
+        Yahtzee.handleEndGame();
+      });
+      $('.play-button').click(function() {
+        var play = $(this).attr('name').replace(/play_/, ''),
+            score = Yahtzee.doScore(play, Yahtzee.getDiceMap());
 
-      if (Yahtzee.isEndGame()) {
+        $(this).prop('disabled', 'disabled').hide();
+        $(this).siblings('input.cross-out').prop('disabled', 'disabled');
+        $(this).siblings('input#game_' + play).val(score).blur();
+
+        Yahtzee.handleEndGame();
+      });
+
+      self.handleUpperScoreKeeping();
+      self.handleLowerScoreKeeping();
+      self.handleFinalScoreKeeping();
+
+      self.rollDice();
+    },
+
+    handleEndGame: function() {
+      if (this.isEndGame()) {
         $('button[name=roll-dice]').prop('disabled', 'disabled');
         $('input[name=commit]').show();
+        $('#game_is_finished').val(true);
+      } else {
+        this.resetRoll();
       }
-    });
+    },
 
-    self.handleUpperScoreKeeping();
-    self.handleLowerScoreKeeping();
-    self.handleFinalScoreKeeping();
+    isEndGame: function() {
+      var isEndGame = true,
+          allPlays = $.map(this.scores, function(i, score) {
+            return score === 'bonuses' ? null : score;
+          }),
+          i;
 
-    self.rollDice();
-  },
+      for(i = 0; i < allPlays.length && isEndGame; i++) {
+        isEndGame = $.inArray(allPlays[i], this.usedPlays) >= 0;
+      }
 
-  isEndGame: function() {
-    var isEndGame = true,
-        allPlays = $.map(this.scores, function(i, score) {
-          return score === 'bonuses' ? null : score;
-        }),
-        i;
+      return isEndGame;
+    },
 
-    for(i = 0; i < allPlays.length && isEndGame; i++) {
-      isEndGame = $.inArray(allPlays[i], this.usedPlays) >= 0;
-    }
+    handleUpperScoreKeeping: function() {
+      var $uppers = $('#game_aces, #game_twos, #game_threes, #game_fours, #game_fives, #game_sixes');
 
-    return isEndGame;
-  },
+      $uppers.blur(function() {
+        var upperTotal = 0;
 
-  handleUpperScoreKeeping: function() {
+        $uppers.each(function(i, el) {
+          upperTotal += parseInt($(el).val()) || 0;
+        });
 
-  },
+        if (upperTotal >= 63) upperTotal += 35;
 
-  handleLowerScoreKeeping: function() {
+        $('#game_upper_total').val(upperTotal).blur();
+      });
+    },
 
-  },
+    handleLowerScoreKeeping: function() {
+      var $lowers = $('#game_three_of_a_kind, #game_four_of_a_kind, #game_full_house, #game_sm_straight, #game_lg_straight,' +
+              '#game_yahtzee, #game_chance, #game_bonuses');
 
-  handleFinalScoreKeeping: function() {
+      $lowers.blur(function() {
+        var lowerTotal = 0;
 
-  },
+        $lowers.each(function(i, el) {
+          var val = parseInt($(el).val()) || 0;
 
-  rollDice: function() {
-    var heldDice = $('.yahtzee-dice .die').map(function(i, el) {
-        return /held-die/.test($(el).attr('class')) ? $(el).data('die-pos') : null;
-      }).get(),
-      availableDice = $('.yahtzee-dice .die').map(function(i, el) {
-        return $.inArray($(el).data('die-pos'), heldDice) < 0 ? $(el) : null;
-      }).get(),
-      availablePlays;
+          if ($(el).attr('id') === 'game_bonuses') {
+            lowerTotal += val * 100;
+          } else {
+            lowerTotal += val;
+          }
+        });
+
+        $('#game_lower_total').val(lowerTotal).blur();
+      });
+    },
+
+    handleFinalScoreKeeping: function() {
+      var $totals = $('#game_upper_total, #game_lower_total');
+
+      $totals.blur(function() {
+        var finalTotal = 0;
+
+        $totals.each(function(i, total) {
+          finalTotal += parseInt($(total).val()) || 0;
+        });
+
+        $('#game_final_score').val(finalTotal);
+      });
+    },
+
+    rollDice: function() {
+      var heldDice = $('.yahtzee-dice .die').map(function(i, el) {
+          return /held-die/.test($(el).attr('class')) ? $(el).data('die-pos') : null;
+        }).get(),
+        availableDice = $('.yahtzee-dice .die').map(function(i, el) {
+          return $.inArray($(el).data('die-pos'), heldDice) < 0 ? $(el) : null;
+        }).get(),
+        availablePlays;
 
 
-    $.each(availableDice, function(i, $die) {
-      Yahtzee.doRoll($die);
-    });
+      $.each(availableDice, function(i, $die) {
+        Yahtzee.doRoll($die);
+      });
 
-    Yahtzee.rollNumber++;
+      Yahtzee.rollNumber++;
 
-    if (Yahtzee.rollNumber == 3) {
-      $('button[name=roll-dice]').prop('disabled', 'disabled');
-    }
+      if (Yahtzee.rollNumber == 3) {
+        $('button[name=roll-dice]').prop('disabled', 'disabled');
+      }
 
-    availablePlays = Yahtzee.evaluateDice();
+      availablePlays = Yahtzee.evaluateDice();
 
-    $('.play-button').hide();
-    $.each(availablePlays, function(i, play) {
-      $('button[name=play_' + play + ']').show();
-    });
-  },
+      $('.play-button').hide();
+      $.each(availablePlays, function(i, play) {
+        $('button[name=play_' + play + ']').show();
+      });
+    },
 
-  doRoll: function($die) {
-    var newDie = Math.floor(Math.random() * 6 + 1),
-        classString = $die.attr('class'),
-        classRegex = /die-[^\s]+/;
+    doRoll: function($die) {
+      var newDie = Math.floor(Math.random() * 6 + 1),
+          classString = $die.attr('class'),
+          classRegex = /die-[^\s]+/;
 
-    switch(newDie) {
-      case 1:
-        $die.attr('class', classString.replace(classRegex, 'die-one'));
-        break;
-      case 2:
-        $die.attr('class', classString.replace(classRegex, 'die-two'));
-        break;
-      case 3:
-        $die.attr('class', classString.replace(classRegex, 'die-three'));
-        break;
-      case 4:
-        $die.attr('class', classString.replace(classRegex, 'die-four'));
-        break;
-      case 5:
-        $die.attr('class', classString.replace(classRegex, 'die-five'));
-        break;
-      case 6:
-        $die.attr('class', classString.replace(classRegex, 'die-six'));
-        break;
-    }
-  },
-
-  dieIsHeld: function($die) {
-    return /held-die/.test($die.attr('class'));
-  },
-
-  toggleHold: function() {
-    var classString = $(this).attr('class');
-
-    if (Yahtzee.dieIsHeld($(this))) {
-      $(this).attr('class', classString.replace(/held-(die-[^\s]+)/, '$1'));
-    } else {
-      $(this).attr('class', classString.replace(/(die-[^\s]+)/, 'held-$1'));
-    }
-  },
-
-  doScore: function(play, diceMap) {
-    this.usedPlays.push(play);
-    return this.scores[play](diceMap);
-  },
-
-  getDiceMap: function() {
-    var $dice = $('.yahtzee-dice .die'),
-        diceMap = {};
-
-    $dice.each(function(i, die) {
-      var face = $(die).attr('class').replace(/\s*held-die-/, '').replace(/\s*die-/, '').replace(/\s*die\s*/, '').trim();
-
-      switch(face) {
-        case 'one':
-          diceMap[1] ? diceMap[1]++ : diceMap[1] = 1;
+      switch(newDie) {
+        case 1:
+          $die.attr('class', classString.replace(classRegex, 'die-one'));
           break;
-        case 'two':
-          diceMap[2] ? diceMap[2]++ : diceMap[2] = 1;
+        case 2:
+          $die.attr('class', classString.replace(classRegex, 'die-two'));
           break;
-        case 'three':
-          diceMap[3] ? diceMap[3]++ : diceMap[3] = 1;
+        case 3:
+          $die.attr('class', classString.replace(classRegex, 'die-three'));
           break;
-        case 'four':
-          diceMap[4] ? diceMap[4]++ : diceMap[4] = 1;
+        case 4:
+          $die.attr('class', classString.replace(classRegex, 'die-four'));
           break;
-        case 'five':
-          diceMap[5] ? diceMap[5]++ : diceMap[5] = 1;
+        case 5:
+          $die.attr('class', classString.replace(classRegex, 'die-five'));
           break;
-        case 'six':
-          diceMap[6] ? diceMap[6]++ : diceMap[6] = 1;
+        case 6:
+          $die.attr('class', classString.replace(classRegex, 'die-six'));
           break;
       }
-    });
+    },
 
-    return diceMap;
-  },
+    resetRoll: function() {
+      $('.die').each(function(i, die) {
+        var oldClasses = $(die).attr('class');
 
-  evaluateDice: function() {
-    var availablePlays = [],
-        diceMap = this.getDiceMap();
+        $(die).attr('class', oldClasses.replace(/held-/, ''));
+      });
 
-    if (diceMap[1] && $.inArray('aces', this.usedPlays) < 0) availablePlays.push('aces');
-    if (diceMap[2] && $.inArray('twos', this.usedPlays) < 0) availablePlays.push('twos');
-    if (diceMap[3] && $.inArray('threes', this.usedPlays) < 0) availablePlays.push('threes');
-    if (diceMap[4] && $.inArray('fours', this.usedPlays) < 0) availablePlays.push('fours');
-    if (diceMap[5] && $.inArray('fives', this.usedPlays) < 0) availablePlays.push('fives');
-    if (diceMap[6] && $.inArray('sixes', this.usedPlays) < 0) availablePlays.push('sixes');
-    if (this.hasThreeOfAKind(diceMap) && $.inArray('three_of_a_kind', this.usedPlays) < 0) availablePlays.push('three_of_a_kind');
-    if (this.hasFourOfAKind(diceMap) && $.inArray('four_of_a_kind', this.usedPlays) < 0) availablePlays.push('four_of_a_kind');
-    if (this.isFullHouse(diceMap) && $.inArray('full_house', this.usedPlays) < 0) availablePlays.push('full_house');
-    if (this.isSmStraight(diceMap) && $.inArray('sm_straight', this.usedPlays) < 0) availablePlays.push('sm_straight');
-    if (this.isLgStraight(diceMap) && $.inArray('lg_straight', this.usedPlays) < 0) availablePlays.push('lg_straight');
-    if (this.isYahtzee(diceMap) && $.inArray('yahtzee', this.usedPlays) < 0) {
-      availablePlays.push('yahtzee');
-    } else if (this.isYahtzee(diceMap)) {
-      availablePlays.push('bonuses');
-    }
-    if ($.inArray('chance', this.usedPlays) < 0) availablePlays.push('chance');
+      $('button[name=roll-dice]').removeProp('disabled');
+      this.rollNumber = 0;
+      this.rollDice();
+    },
 
-    return availablePlays;
-  },
+    dieIsHeld: function($die) {
+      return /held-die/.test($die.attr('class'));
+    },
 
-  hasThreeOfAKind: function(diceMap) {
-    var isThreeOfAKind = false;
+    toggleHold: function() {
+      var classString = $(this).attr('class');
 
-    for (var face in diceMap) {
-      if (diceMap[face] >= 3) isThreeOfAKind = true;
-    }
-
-    return isThreeOfAKind;
-  },
-
-  hasFourOfAKind: function(diceMap) {
-    var isFourOfAKind = false;
-
-    for (var face in diceMap) {
-      if (diceMap[face] >= 4) isFourOfAKind = true;
-    }
-
-    return isFourOfAKind;
-  },
-
-  isFullHouse: function(diceMap) {
-    var isTwoOfAKind = false,
-        isThreeOfAKind = false;
-
-    for (var face in diceMap) {
-      if (diceMap[face] === 3) {
-        isThreeOfAKind = true;
-        diceMap[face] = 0;
+      if (Yahtzee.dieIsHeld($(this))) {
+        $(this).attr('class', classString.replace(/held-(die-[^\s]+)/, '$1'));
+      } else {
+        $(this).attr('class', classString.replace(/(die-[^\s]+)/, 'held-$1'));
       }
-    }
+    },
 
-    if (isThreeOfAKind) {
+    doScore: function(play, diceMap) {
+      this.usedPlays.push(play);
+      return this.scores[play](diceMap);
+    },
+
+    getDiceMap: function() {
+      var $dice = $('.yahtzee-dice .die'),
+          diceMap = {};
+
+      $dice.each(function(i, die) {
+        var face = $(die).attr('class').replace(/\s*held-die-/, '').replace(/\s*die-/, '').replace(/\s*die\s*/, '').trim();
+
+        switch(face) {
+          case 'one':
+            diceMap[1] ? diceMap[1]++ : diceMap[1] = 1;
+            break;
+          case 'two':
+            diceMap[2] ? diceMap[2]++ : diceMap[2] = 1;
+            break;
+          case 'three':
+            diceMap[3] ? diceMap[3]++ : diceMap[3] = 1;
+            break;
+          case 'four':
+            diceMap[4] ? diceMap[4]++ : diceMap[4] = 1;
+            break;
+          case 'five':
+            diceMap[5] ? diceMap[5]++ : diceMap[5] = 1;
+            break;
+          case 'six':
+            diceMap[6] ? diceMap[6]++ : diceMap[6] = 1;
+            break;
+        }
+      });
+
+      return diceMap;
+    },
+
+    evaluateDice: function() {
+      var availablePlays = [],
+          diceMap = this.getDiceMap();
+
+      if (diceMap[1] && $.inArray('aces', this.usedPlays) < 0) availablePlays.push('aces');
+      if (diceMap[2] && $.inArray('twos', this.usedPlays) < 0) availablePlays.push('twos');
+      if (diceMap[3] && $.inArray('threes', this.usedPlays) < 0) availablePlays.push('threes');
+      if (diceMap[4] && $.inArray('fours', this.usedPlays) < 0) availablePlays.push('fours');
+      if (diceMap[5] && $.inArray('fives', this.usedPlays) < 0) availablePlays.push('fives');
+      if (diceMap[6] && $.inArray('sixes', this.usedPlays) < 0) availablePlays.push('sixes');
+      if (this.hasThreeOfAKind(diceMap) && $.inArray('three_of_a_kind', this.usedPlays) < 0) availablePlays.push('three_of_a_kind');
+      if (this.hasFourOfAKind(diceMap) && $.inArray('four_of_a_kind', this.usedPlays) < 0) availablePlays.push('four_of_a_kind');
+      if (this.isFullHouse(diceMap) && $.inArray('full_house', this.usedPlays) < 0) availablePlays.push('full_house');
+      if (this.isSmStraight(diceMap) && $.inArray('sm_straight', this.usedPlays) < 0) availablePlays.push('sm_straight');
+      if (this.isLgStraight(diceMap) && $.inArray('lg_straight', this.usedPlays) < 0) availablePlays.push('lg_straight');
+      if (this.isYahtzee(diceMap) && $.inArray('yahtzee', this.usedPlays) < 0) {
+        availablePlays.push('yahtzee');
+      } else if (this.isYahtzee(diceMap)) {
+        availablePlays.push('bonuses');
+      }
+      if ($.inArray('chance', this.usedPlays) < 0) availablePlays.push('chance');
+
+      return availablePlays;
+    },
+
+    hasThreeOfAKind: function(diceMap) {
+      var isThreeOfAKind = false,
+          face;
+
+      for (face in diceMap) {
+        if (diceMap[face] >= 3) isThreeOfAKind = true;
+      }
+
+      return isThreeOfAKind;
+    },
+
+    hasFourOfAKind: function(diceMap) {
+      var isFourOfAKind = false,
+          face;
+
+      for (face in diceMap) {
+        if (diceMap[face] >= 4) isFourOfAKind = true;
+      }
+
+      return isFourOfAKind;
+    },
+
+    isFullHouse: function(diceMap) {
+      var isTwoOfAKind = false,
+          isThreeOfAKind = false;
+
       for (var face in diceMap) {
-        if (diceMap[face] === 2) isTwoOfAKind = true;
+        if (diceMap[face] === 3) {
+          isThreeOfAKind = true;
+          diceMap[face] = 0;
+        }
       }
+
+      if (isThreeOfAKind) {
+        for (var face in diceMap) {
+          if (diceMap[face] === 2) isTwoOfAKind = true;
+        }
+      }
+
+      return isTwoOfAKind && isThreeOfAKind;
+    },
+
+    isSmStraight: function(diceMap) {
+      return (diceMap[1] && diceMap[2] && diceMap[3] && diceMap[4]) ||
+            (diceMap[2] && diceMap[3] && diceMap[4] && diceMap[5]) ||
+            (diceMap[3] && diceMap[4] && diceMap[5] && diceMap[6]);
+    },
+
+    isLgStraight: function(diceMap) {
+      return (diceMap[1] && diceMap[2] && diceMap[3] && diceMap[4] && diceMap[5]) ||
+            (diceMap[2] && diceMap[3] && diceMap[4] && diceMap[5] && diceMap[6]);
+    },
+
+    isYahtzee: function(diceMap) {
+      var isYahtzee = false;
+
+      for (var face in diceMap) {
+        if (diceMap[face] === 5) isYahtzee = true;
+      }
+
+      return isYahtzee;
     }
+  };
 
-    return isTwoOfAKind && isThreeOfAKind;
-  },
 
-  isSmStraight: function(diceMap) {
-    return (diceMap[1] && diceMap[2] && diceMap[3] & diceMap[4]) ||
-          (diceMap[2] && diceMap[3] && diceMap[4] && diceMap[5]) ||
-          (diceMap[3] && diceMap[4] && diceMap[5] && diceMap[6]);
-  },
-
-  isLgStraight: function(diceMap) {
-    return (diceMap[1] && diceMap[2] && diceMap[3] && diceMap[4] && diceMap[5]) ||
-          (diceMap[2] && diceMap[3] && diceMap[4] && diceMap[5] && diceMap[6]);
-  },
-
-  isYahtzee: function(diceMap) {
-    var isYahtzee = false;
-
-    for (var face in diceMap) {
-      if (diceMap[face] === 5) isYahtzee = true;
-    }
-
-    return isYahtzee;
-  }
-};
-
-$(function() {
-  Yahtzee.init();
-});
+  $(document).on('turbolinks:load', function() {
+    Yahtzee.init();
+  });
+})();
