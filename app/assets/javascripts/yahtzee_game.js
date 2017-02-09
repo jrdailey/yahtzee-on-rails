@@ -1,9 +1,5 @@
 (function() {
   var Yahtzee = {
-    rollNumber: 0,
-
-    usedPlays: [],
-
     scores: {
       'aces': function(diceMap) {
         return diceMap[1];
@@ -65,26 +61,29 @@
     init: function() {
       var self = this;
 
+      self.rollNumber = 0;
+      self.usedPlays = [];
+
       $('button[name=roll-dice]').click(self.rollDice);
       $('.die').click(self.toggleHold);
       $('.cross-out').click(function() {
         var play = $(this).attr('id').replace(/game_cross_out_/, '');
 
-        Yahtzee.usedPlays.push(play);
+        self.usedPlays.push(play);
         $(this).prop('disabled', 'disabled');
         $(this).siblings('button[name=play_' + play + ']').prop('disabled', 'disabled').hide();
 
-        Yahtzee.handleEndGame();
+        self.handleEndGame();
       });
       $('.play-button').click(function() {
         var play = $(this).attr('name').replace(/play_/, ''),
-            score = Yahtzee.doScore(play, Yahtzee.getDiceMap());
+            score = self.doScore(play, self.getDiceMap());
 
         $(this).prop('disabled', 'disabled').hide();
         $(this).siblings('input.cross-out').prop('disabled', 'disabled');
         $(this).siblings('input#game_' + play).val(score).blur();
 
-        Yahtzee.handleEndGame();
+        self.handleEndGame();
       });
 
       self.handleUpperScoreKeeping();
@@ -177,7 +176,6 @@
           return $.inArray($(el).data('die-pos'), heldDice) < 0 ? $(el) : null;
         }).get(),
         availablePlays;
-
 
       $.each(availableDice, function(i, $die) {
         Yahtzee.doRoll($die);
@@ -304,7 +302,7 @@
       if (this.isLgStraight(diceMap) && $.inArray('lg_straight', this.usedPlays) < 0) availablePlays.push('lg_straight');
       if (this.isYahtzee(diceMap) && $.inArray('yahtzee', this.usedPlays) < 0) {
         availablePlays.push('yahtzee');
-      } else if (this.isYahtzee(diceMap)) {
+      } else if (this.isYahtzee(diceMap) && !$('#game_cross_out_yahtzee').is(':checked')) {
         availablePlays.push('bonuses');
       }
       if ($.inArray('chance', this.usedPlays) < 0) availablePlays.push('chance');

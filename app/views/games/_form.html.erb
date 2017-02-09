@@ -27,7 +27,7 @@
       <tr>
         <td><%= f.label :aces %></td>
         <td>
-          <%= f.number_field :aces, options = { disabled: true } %>
+          <%= f.number_field :aces, options = { readonly: true } %>
           <%= button_tag 'Play', type: 'button', name: 'play_aces', class: 'play-button' %>
           <%= f.label :cross_out_aces %><%= f.check_box :cross_out_aces, options = {class: 'cross-out'} %>
         </td>
@@ -35,7 +35,7 @@
       <tr>
         <td><%= f.label :twos %></td>
         <td>
-          <%= f.number_field :twos, options = { disabled: true } %>
+          <%= f.number_field :twos, options = { readonly: true } %>
           <%= button_tag 'Play', type: 'button', name: 'play_twos', class: 'play-button' %>
           <%= f.label :cross_out_twos %><%= f.check_box :cross_out_twos, options = {class: 'cross-out'} %>
         </td>
@@ -43,7 +43,7 @@
       <tr>
         <td><%= f.label :threes %></td>
         <td>
-          <%= f.number_field :threes, options = { disabled: true } %>
+          <%= f.number_field :threes, options = { readonly: true } %>
           <%= button_tag 'Play', type: 'button', name: 'play_threes', class: 'play-button' %>
           <%= f.label :cross_out_threes %><%= f.check_box :cross_out_threes, options = {class: 'cross-out'} %>
         </td>
@@ -51,7 +51,7 @@
       <tr>
         <td><%= f.label :fours %></td>
         <td>
-          <%= f.number_field :fours, options = { disabled: true } %>
+          <%= f.number_field :fours, options = { readonly: true } %>
           <%= button_tag 'Play', type: 'button', name: 'play_fours', class: 'play-button' %>
           <%= f.label :cross_out_fours %><%= f.check_box :cross_out_fours, options = {class: 'cross-out'} %>
         </td>
@@ -59,7 +59,7 @@
       <tr>
         <td><%= f.label :fives %></td>
         <td>
-          <%= f.number_field :fives, options = { disabled: true } %>
+          <%= f.number_field :fives, options = { readonly: true } %>
           <%= button_tag 'Play', type: 'button', name: 'play_fives', class: 'play-button' %>
           <%= f.label :cross_out_fives %><%= f.check_box :cross_out_fives, options = {class: 'cross-out'} %>
         </td>
@@ -67,14 +67,14 @@
       <tr>
         <td><%= f.label :sixes %></td>
         <td>
-          <%= f.number_field :sixes, options = { disabled: true } %>
+          <%= f.number_field :sixes, options = { readonly: true } %>
           <%= button_tag 'Play', type: 'button', name: 'play_sixes', class: 'play-button' %>
           <%= f.label :cross_out_sixes %><%= f.check_box :cross_out_sixes, options = {class: 'cross-out'} %>
         </td>
       </tr>
       <tr>
         <td><%= f.label :upper_total %><br/><span class="score-note">If total is 63 or more, 35 points will be added</span></td>
-        <td><%= f.number_field :upper_total, options = { disabled: true } %></td>
+        <td><%= f.number_field :upper_total, options = { readonly: true } %></td>
       </tr>
     </tbody>
   </table>
@@ -90,7 +90,7 @@
       <tr>
         <td><%= f.label :three_of_a_kind %></td>
         <td>
-          <%= f.number_field :three_of_a_kind, options = { disabled: true } %>
+          <%= f.number_field :three_of_a_kind, options = { readonly: true } %>
           <%= button_tag 'Play', type: 'button', name: 'play_three_of_a_kind', class: 'play-button' %>
           <%= f.label :cross_out_three_of_a_kind %><%= f.check_box :cross_out_three_of_a_kind, options = {class: 'cross-out'} %>
         </td>
@@ -98,7 +98,7 @@
       <tr>
         <td><%= f.label :four_of_a_kind %></td>
         <td>
-          <%= f.number_field :four_of_a_kind, options = { disabled: true } %>
+          <%= f.number_field :four_of_a_kind, options = { readonly: true } %>
           <%= button_tag 'Play', type: 'button', name: 'play_four_of_a_kind', class: 'play-button' %>
           <%= f.label :cross_out_four_of_a_kind %><%= f.check_box :cross_out_four_of_a_kind, options = {class: 'cross-out'} %>
         </td>
@@ -106,7 +106,7 @@
       <tr>
         <td><%= f.label :full_house %></td>
         <td>
-          <%= f.number_field :full_house, options = { disabled: true } %>
+          <%= f.number_field :full_house, options = { readonly: true } %>
           <%= button_tag 'Play', type: 'button', name: 'play_full_house', class: 'play-button' %>
           <%= f.label :cross_out_full_house %><%= f.check_box :cross_out_full_house, options = {class: 'cross-out'} %>
         </td>
@@ -114,7 +114,7 @@
       <tr>
         <td><%= f.label :sm_straight %></td>
         <td>
-          <%= f.number_field :sm_straight, options = { disabled: true } %>
+          <%= f.number_field :sm_straight, options = { readonly: true } %>
           <%= button_tag 'Play', type: 'button', name: 'play_sm_straight', class: 'play-button' %>
           <%= f.label :cross_out_sm_straight %><%= f.check_box :cross_out_sm_straight, options = {class: 'cross-out'} %>
         </td>
@@ -122,7 +122,7 @@
       <tr>
         <td><%= f.label :lg_straight %></td>
         <td>
-          <%= f.number_field :lg_straight, options = { disabled: true } %>
+          <%= f.number_field :lg_straight, options = { readonly: true } %>
           <%= button_tag 'Play', type: 'button', name: 'play_lg_straight', class: 'play-button' %>
           <%= f.label :cross_out_lg_straight %><%= f.check_box :cross_out_lg_straight, options = {class: 'cross-out'} %>
         </td>
@@ -130,7 +130,7 @@
       <tr>
         <td><%= f.label :yahtzee %></td>
         <td>
-          <%= f.number_field :yahtzee, options = { disabled: true } %>
+          <%= f.number_field :yahtzee, options = { readonly: true } %>
           <%= button_tag 'Play', type: 'button', name: 'play_yahtzee', class: 'play-button' %>
           <%= f.label :cross_out_yahtzee %><%= f.check_box :cross_out_yahtzee, options = {class: 'cross-out'} %>
         </td>
@@ -138,24 +138,24 @@
       <tr>
         <td><%= f.label :chance %></td>
         <td>
-          <%= f.number_field :chance, options = { disabled: true } %>
+          <%= f.number_field :chance, options = { readonly: true } %>
           <%= button_tag 'Play', type: 'button', name: 'play_chance', class: 'play-button' %>
           <%= f.label :cross_out_chance %><%= f.check_box :cross_out_chance, options = {class: 'cross-out'} %></td>
       </tr>
       <tr>
         <td><%= f.label :bonuses %></td>
         <td>
-          <%= f.number_field :bonuses, options = { disabled: true } %>
+          <%= f.number_field :bonuses, options = { readonly: true } %>
           <%= button_tag 'Play', type: 'button', name: 'play_bonuses', class: 'play-button' %>
         </td>
       </tr>
       <tr>
         <td><%= f.label :lower_total %></td>
-        <td><%= f.number_field :lower_total, options = { disabled: true } %></td>
+        <td><%= f.number_field :lower_total, options = { readonly: true } %></td>
       </tr>
       <tr>
         <td><%= f.label :final_score %></td>
-        <td><%= f.number_field :final_score, options = { disabled: true } %></td>
+        <td><%= f.number_field :final_score, options = { readonly: true } %></td>
       </tr>
     </tbody>
   </table>
