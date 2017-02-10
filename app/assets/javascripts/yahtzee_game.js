@@ -1,5 +1,5 @@
 (function() {
-  var Yahtzee = {
+  Yahtzee = {
     scores: {
       'aces': function(diceMap) {
         return diceMap[1];
@@ -176,24 +176,45 @@
         availableDice = $('.yahtzee-dice .die').map(function(i, el) {
           return $.inArray($(el).data('die-pos'), heldDice) < 0 ? $(el) : null;
         }).get(),
-        availablePlays;
+        defs = [];
 
       $.each(availableDice, function(i, $die) {
-        Yahtzee.doRoll($die);
+        var def = $.Deferred();
+
+        Yahtzee.animateDie($die, i + 1 * 200, 0, def);
+        defs.push(def);
       });
 
-      Yahtzee.rollNumber++;
+      $.when.apply($, defs).done(function() {
+        var availablePlays;
 
-      if (Yahtzee.rollNumber == 3) {
-        $('button[name=roll-dice]').prop('disabled', 'disabled');
+        if (Yahtzee.rollNumber == 2) {
+          $('button[name=roll-dice]').prop('disabled', 'disabled');
+        }
+
+        availablePlays = Yahtzee.evaluateDice();
+
+        $('.play-button').hide();
+        $.each(availablePlays, function(i, play) {
+          $('button[name=play_' + play + ']').show();
+        });
+
+        Yahtzee.rollNumber++;
+      });
+    },
+
+    animateDie: function($die, duration, time, deferred) {
+      var delta = 50,
+          self = this;
+
+      if (time < duration) {
+        setTimeout(function() {
+          self.doRoll($die);
+          self.animateDie($die, duration, time + delta, deferred);
+        }, delta);
+      } else {
+        deferred.resolve();
       }
-
-      availablePlays = Yahtzee.evaluateDice();
-
-      $('.play-button').hide();
-      $.each(availablePlays, function(i, play) {
-        $('button[name=play_' + play + ']').show();
-      });
     },
 
     doRoll: function($die) {
@@ -374,7 +395,6 @@
       return isYahtzee;
     }
   };
-
 
   $(document).on('turbolinks:load', function() {
     Yahtzee.init();
