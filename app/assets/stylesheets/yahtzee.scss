@@ -63,10 +63,6 @@
   @include die-background('dice.png', -321px -65px);
 }
 
-input[name=commit] {
-  display: none;
-}
-
 .play-button {
   display: none;
 }

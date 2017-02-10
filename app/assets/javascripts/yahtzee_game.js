@@ -44,7 +44,7 @@
   Game.handleEndGame = function() {
     if (this.isEndGame()) {
       $('button[name=roll-dice]').prop('disabled', 'disabled');
-      $('input[name=commit]').show();
+      $('input[name=commit]').val('Finish');
       $('#game_is_finished').val(true);
     } else {
       this.resetRoll();

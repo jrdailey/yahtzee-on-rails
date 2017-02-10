@@ -1,25 +1,19 @@
 class GamesController < ApplicationController
-  before_action :set_game, only: [:show, :edit, :update, :destroy]
+  before_action :set_game, only: [:edit, :update, :destroy]
 
-  # GET /games
   def index
-    @games = Game.order(:final_score).reverse
+    @finished_games = Game.where(is_finished: true).order(:final_score).reverse
+    @unfinished_games = Game.where(:is_finished => [false, nil]).order(:id);
   end
 
-  # GET /games/1
-  def show
-  end
-
-  # GET /games/new
   def new
     @game = Game.new
   end
 
-  # GET /games/1/edit
   def edit
+    @game = Game.find(params[:id]);
   end
 
-  # POST /games
   def create
     @game = Game.new(game_params)
 
@@ -32,7 +26,6 @@ class GamesController < ApplicationController
     end
   end
 
-  # PATCH/PUT /games/1
   def update
     respond_to do |format|
       if @game.update(game_params)
@@ -43,7 +36,6 @@ class GamesController < ApplicationController
     end
   end
 
-  # DELETE /games/1
   def destroy
     @game.destroy
     respond_to do |format|
@@ -52,12 +44,10 @@ class GamesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_game
       @game = Game.find(params[:id])
     end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
     def game_params
       params.require(:game).permit(:aces, :twos, :threes, :fours, :fives, :sixes, :upper_total, :three_of_a_kind,
         :four_of_a_kind, :full_house, :sm_straight, :lg_straight, :yahtzee, :chance, :bonuses, :upper_total, :lower_total,

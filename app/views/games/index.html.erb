@@ -11,10 +11,33 @@
   </thead>
 
   <tbody>
-    <% @games.each do |game| %>
+    <% @finished_games.each do |game| %>
       <tr>
         <td><%= game.player_name %></td>
         <td><%= game.final_score %></td>
+        <td><%= link_to 'Delete', game, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<h2>Continue Game</h1>
+<table>
+  <thead>
+    <tr>
+      <th>Player Name</th>
+      <th>Score</th>
+      <th>Game ID</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @unfinished_games.each do |game| %>
+      <tr>
+        <td><%= game.player_name %></td>
+        <td><%= game.final_score %></td>
+        <td><%= game.id %></td>
+        <td><%= link_to 'Continue', continue_game_path(game) %></td>
         <td><%= link_to 'Delete', game, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
