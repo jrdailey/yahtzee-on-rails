@@ -181,7 +181,7 @@
       $.each(availableDice, function(i, $die) {
         var def = $.Deferred();
 
-        Yahtzee.animateDie($die, i + 1 * 200, 0, def);
+        Yahtzee.animateDie($die, i + 1 * 200, def);
         defs.push(def);
       });
 
@@ -203,18 +203,21 @@
       });
     },
 
-    animateDie: function($die, duration, time, deferred) {
+    animateDie: function($die, duration, deferred) {
       var delta = 50,
+          time = 0,
           self = this;
 
-      if (time < duration) {
-        setTimeout(function() {
-          self.doRoll($die);
-          self.animateDie($die, duration, time + delta, deferred);
-        }, delta);
-      } else {
-        deferred.resolve();
-      }
+      (function animate($die, duration, deferred, time) {
+        if (time < duration) {
+          setTimeout(function() {
+            self.doRoll($die);
+            animate($die, duration, deferred, time + delta);
+          }, delta);
+        } else {
+          deferred.resolve();
+        }
+      })($die, duration, deferred, time);
     },
 
     doRoll: function($die) {
@@ -317,8 +320,8 @@
       if (diceMap[4] && $.inArray('fours', this.usedPlays) < 0) availablePlays.push('fours');
       if (diceMap[5] && $.inArray('fives', this.usedPlays) < 0) availablePlays.push('fives');
       if (diceMap[6] && $.inArray('sixes', this.usedPlays) < 0) availablePlays.push('sixes');
-      if (this.hasThreeOfAKind(diceMap) && $.inArray('three_of_a_kind', this.usedPlays) < 0) availablePlays.push('three_of_a_kind');
-      if (this.hasFourOfAKind(diceMap) && $.inArray('four_of_a_kind', this.usedPlays) < 0) availablePlays.push('four_of_a_kind');
+      if (this.isThreeOfAKind(diceMap) && $.inArray('three_of_a_kind', this.usedPlays) < 0) availablePlays.push('three_of_a_kind');
+      if (this.isFourOfAKind(diceMap) && $.inArray('four_of_a_kind', this.usedPlays) < 0) availablePlays.push('four_of_a_kind');
       if (this.isFullHouse(diceMap) && $.inArray('full_house', this.usedPlays) < 0) availablePlays.push('full_house');
       if (this.isSmStraight(diceMap) && $.inArray('sm_straight', this.usedPlays) < 0) availablePlays.push('sm_straight');
       if (this.isLgStraight(diceMap) && $.inArray('lg_straight', this.usedPlays) < 0) availablePlays.push('lg_straight');
@@ -332,7 +335,7 @@
       return availablePlays;
     },
 
-    hasThreeOfAKind: function(diceMap) {
+    isThreeOfAKind: function(diceMap) {
       var isThreeOfAKind = false,
           face;
 
@@ -343,7 +346,7 @@
       return isThreeOfAKind;
     },
 
-    hasFourOfAKind: function(diceMap) {
+    isFourOfAKind: function(diceMap) {
       var isFourOfAKind = false,
           face;
 
