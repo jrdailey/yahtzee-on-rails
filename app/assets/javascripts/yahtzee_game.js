@@ -1,5 +1,5 @@
 (function() {
-  Yahtzee = {
+  var Yahtzee = {
     scores: {
       'aces': function(diceMap) {
         return diceMap[1];
