@@ -2,7 +2,7 @@ class GamesController < ApplicationController
   before_action :set_game, only: [:edit, :update, :destroy]
 
   def index
-    @finished_games = Game.where(is_finished: true).order(:final_score).reverse
+    @finished_games = Game.where(is_finished: true).order(:final_score).reverse.first(5)
     @unfinished_games = Game.where(:is_finished => [false, nil]).order(:id);
   end
 
