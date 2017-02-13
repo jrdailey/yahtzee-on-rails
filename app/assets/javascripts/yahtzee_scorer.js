@@ -205,9 +205,10 @@
 
   Scorer.isFullHouse = function(diceMap) {
     var isTwoOfAKind = false,
-        isThreeOfAKind = false;
+        isThreeOfAKind = false,
+        face;
 
-    for (var face in diceMap) {
+    for (face in diceMap) {
       if (diceMap[face] === 3) {
         isThreeOfAKind = true;
         diceMap[face] = 0;
@@ -215,7 +216,7 @@
     }
 
     if (isThreeOfAKind) {
-      for (var face in diceMap) {
+      for (face in diceMap) {
         if (diceMap[face] === 2) isTwoOfAKind = true;
       }
     }
@@ -235,9 +236,10 @@
   };
 
   Scorer.isYahtzee = function(diceMap) {
-    var isYahtzee = false;
+    var isYahtzee = false,
+        face;
 
-    for (var face in diceMap) {
+    for (face in diceMap) {
       if (diceMap[face] === 5) isYahtzee = true;
     }
 
