@@ -16,58 +16,58 @@
     <%= f.text_field :player_name %>
   </div>
 
-  <table>
+  <table class="form-upper-section">
     <thead>
       <tr>
-        <th>Upper Section</th>
+        <th colspan="2">Upper Section</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td><%= f.label :aces %></td>
+        <td><%= f.label :aces, "Aces (Total 1's)" %></td>
         <td>
           <%= f.number_field :aces, options = { readonly: true } %>
-          <%= button_tag 'Play', type: 'button', name: 'play_aces', class: 'play-button' %>
+          <%= button_tag 'Play', type: 'button', name: 'play_aces', class: 'play-button' %><br>
           <%= f.label :cross_out_aces %><%= f.check_box :cross_out_aces, options = {class: 'cross-out'} %><%= f.hidden_field :cross_out_aces %>
         </td>
       </tr>
       <tr>
-        <td><%= f.label :twos %></td>
+        <td><%= f.label :twos, "Twos (Total 2's)" %></td>
         <td>
           <%= f.number_field :twos, options = { readonly: true } %>
-          <%= button_tag 'Play', type: 'button', name: 'play_twos', class: 'play-button' %>
+          <%= button_tag 'Play', type: 'button', name: 'play_twos', class: 'play-button' %><br>
           <%= f.label :cross_out_twos %><%= f.check_box :cross_out_twos, options = {class: 'cross-out'} %><%= f.hidden_field :cross_out_twos %>
         </td>
       </tr>
       <tr>
-        <td><%= f.label :threes %></td>
+        <td><%= f.label :threes, "Threes (Total 3's)" %></td>
         <td>
           <%= f.number_field :threes, options = { readonly: true } %>
-          <%= button_tag 'Play', type: 'button', name: 'play_threes', class: 'play-button' %>
+          <%= button_tag 'Play', type: 'button', name: 'play_threes', class: 'play-button' %><br>
           <%= f.label :cross_out_threes %><%= f.check_box :cross_out_threes, options = {class: 'cross-out'} %><%= f.hidden_field :cross_out_threes %>
         </td>
       </tr>
       <tr>
-        <td><%= f.label :fours %></td>
+        <td><%= f.label :fours, "Fours (Total 4's)" %></td>
         <td>
           <%= f.number_field :fours, options = { readonly: true } %>
-          <%= button_tag 'Play', type: 'button', name: 'play_fours', class: 'play-button' %>
+          <%= button_tag 'Play', type: 'button', name: 'play_fours', class: 'play-button' %><br>
           <%= f.label :cross_out_fours %><%= f.check_box :cross_out_fours, options = {class: 'cross-out'} %><%= f.hidden_field :cross_out_fours %>
         </td>
       </tr>
       <tr>
-        <td><%= f.label :fives %></td>
+        <td><%= f.label :fives, "Fives (Total 5's)" %></td>
         <td>
           <%= f.number_field :fives, options = { readonly: true } %>
-          <%= button_tag 'Play', type: 'button', name: 'play_fives', class: 'play-button' %>
+          <%= button_tag 'Play', type: 'button', name: 'play_fives', class: 'play-button' %><br>
           <%= f.label :cross_out_fives %><%= f.check_box :cross_out_fives, options = {class: 'cross-out'} %><%= f.hidden_field :cross_out_fives %>
         </td>
       </tr>
       <tr>
-        <td><%= f.label :sixes %></td>
+        <td><%= f.label :sixes, "Sixes (Total 6's)" %></td>
         <td>
           <%= f.number_field :sixes, options = { readonly: true } %>
-          <%= button_tag 'Play', type: 'button', name: 'play_sixes', class: 'play-button' %>
+          <%= button_tag 'Play', type: 'button', name: 'play_sixes', class: 'play-button' %><br>
           <%= f.label :cross_out_sixes %><%= f.check_box :cross_out_sixes, options = {class: 'cross-out'} %><%= f.hidden_field :cross_out_sixes %>
         </td>
       </tr>
@@ -78,70 +78,70 @@
     </tbody>
   </table>
 
-  <table>
+  <table class="form-lower-section">
     <thead>
       <tr>
-        <th>Lower Section</th>
+        <th colspan="2">Lower Section</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td><%= f.label :three_of_a_kind %></td>
+        <td><%= f.label :three_of_a_kind, "3 of a kind (Total dice)" %></td>
         <td>
           <%= f.number_field :three_of_a_kind, options = { readonly: true } %>
-          <%= button_tag 'Play', type: 'button', name: 'play_three_of_a_kind', class: 'play-button' %>
+          <%= button_tag 'Play', type: 'button', name: 'play_three_of_a_kind', class: 'play-button' %><br>
           <%= f.label :cross_out_three_of_a_kind %><%= f.check_box :cross_out_three_of_a_kind, options = {class: 'cross-out'} %><%= f.hidden_field :cross_out_three_of_a_kind %>
         </td>
       </tr>
       <tr>
-        <td><%= f.label :four_of_a_kind %></td>
+        <td><%= f.label :four_of_a_kind, "4 of a kind (Total dice)" %></td>
         <td>
           <%= f.number_field :four_of_a_kind, options = { readonly: true } %>
-          <%= button_tag 'Play', type: 'button', name: 'play_four_of_a_kind', class: 'play-button' %>
+          <%= button_tag 'Play', type: 'button', name: 'play_four_of_a_kind', class: 'play-button' %><br>
           <%= f.label :cross_out_four_of_a_kind %><%= f.check_box :cross_out_four_of_a_kind, options = {class: 'cross-out'} %><%= f.hidden_field :cross_out_four_of_a_kind %>
         </td>
       </tr>
       <tr>
-        <td><%= f.label :full_house %></td>
+        <td><%= f.label :full_house, "Full House (Score 25)" %></td>
         <td>
           <%= f.number_field :full_house, options = { readonly: true } %>
-          <%= button_tag 'Play', type: 'button', name: 'play_full_house', class: 'play-button' %>
+          <%= button_tag 'Play', type: 'button', name: 'play_full_house', class: 'play-button' %><br>
           <%= f.label :cross_out_full_house %><%= f.check_box :cross_out_full_house, options = {class: 'cross-out'} %><%= f.hidden_field :cross_out_full_house %>
         </td>
       </tr>
       <tr>
-        <td><%= f.label :sm_straight %></td>
+        <td><%= f.label :sm_straight, "Small Straight (Score 30)" %></td>
         <td>
           <%= f.number_field :sm_straight, options = { readonly: true } %>
-          <%= button_tag 'Play', type: 'button', name: 'play_sm_straight', class: 'play-button' %>
+          <%= button_tag 'Play', type: 'button', name: 'play_sm_straight', class: 'play-button' %><br>
           <%= f.label :cross_out_sm_straight %><%= f.check_box :cross_out_sm_straight, options = {class: 'cross-out'} %><%= f.hidden_field :cross_out_sm_straight %>
         </td>
       </tr>
       <tr>
-        <td><%= f.label :lg_straight %></td>
+        <td><%= f.label :lg_straight, "Large Straight (Score 40)" %></td>
         <td>
           <%= f.number_field :lg_straight, options = { readonly: true } %>
-          <%= button_tag 'Play', type: 'button', name: 'play_lg_straight', class: 'play-button' %>
+          <%= button_tag 'Play', type: 'button', name: 'play_lg_straight', class: 'play-button' %><br>
           <%= f.label :cross_out_lg_straight %><%= f.check_box :cross_out_lg_straight, options = {class: 'cross-out'} %><%= f.hidden_field :cross_out_lg_straight %>
         </td>
       </tr>
       <tr>
-        <td><%= f.label :yahtzee %></td>
+        <td><%= f.label :yahtzee, "Yahtzee (Score 50)" %></td>
         <td>
           <%= f.number_field :yahtzee, options = { readonly: true } %>
-          <%= button_tag 'Play', type: 'button', name: 'play_yahtzee', class: 'play-button' %>
+          <%= button_tag 'Play', type: 'button', name: 'play_yahtzee', class: 'play-button' %><br>
           <%= f.label :cross_out_yahtzee %><%= f.check_box :cross_out_yahtzee, options = {class: 'cross-out'} %><%= f.hidden_field :cross_out_yahtzee %>
         </td>
       </tr>
       <tr>
-        <td><%= f.label :chance %></td>
+        <td><%= f.label :chance, "Chance (Total dice)" %></td>
         <td>
           <%= f.number_field :chance, options = { readonly: true } %>
-          <%= button_tag 'Play', type: 'button', name: 'play_chance', class: 'play-button' %>
+          <%= button_tag 'Play', type: 'button', name: 'play_chance', class: 'play-button' %><br>
           <%= f.label :cross_out_chance %><%= f.check_box :cross_out_chance, options = {class: 'cross-out'} %><%= f.hidden_field :cross_out_chance %></td>
       </tr>
       <tr>
-        <td><%= f.label :bonuses %></td>
+        <td><%= f.label :bonuses, "Bonus Yahtzees (100 each)" %></td>
         <td>
           <%= f.number_field :bonuses, options = { readonly: true } %>
           <%= button_tag 'Play', type: 'button', name: 'play_bonuses', class: 'play-button' %>

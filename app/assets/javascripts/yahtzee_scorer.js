@@ -21,10 +21,10 @@
       return diceMap[6] * 6;
     },
     'three_of_a_kind': function(diceMap) {
-      return Yahtzee.sumAllDice(diceMap);
+      return Scorer.sumAllDice(diceMap);
     },
     'four_of_a_kind': function(diceMap) {
-      return Yahtzee.sumAllDice(diceMap);
+      return Scorer.sumAllDice(diceMap);
     },
     'full_house': function(diceMap) {
       return 25;
@@ -42,7 +42,7 @@
       return (parseInt($('#game_bonuses').val()) || 0) + 1;
     },
     'chance': function(diceMap) {
-      return Yahtzee.sumAllDice(diceMap);
+      return Scorer.sumAllDice(diceMap);
     }
   };
 

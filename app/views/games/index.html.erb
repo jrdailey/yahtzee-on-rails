@@ -1,6 +1,7 @@
 <p id="notice"><%= notice %></p>
 
 <h1>High Scores</h1>
+<hr/>
 
 <table>
   <thead>
@@ -15,13 +16,14 @@
       <tr>
         <td><%= game.player_name %></td>
         <td><%= game.final_score %></td>
-        <td><%= link_to 'Delete', game, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td class="no-border"><%= link_to 'Delete', game, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
-<h2>Continue Game</h1>
+<h1>Continue Game</h1>
+<hr/>
 <table>
   <thead>
     <tr>
@@ -37,8 +39,8 @@
         <td><%= game.player_name %></td>
         <td><%= game.final_score %></td>
         <td><%= game.id %></td>
-        <td><%= link_to 'Continue', continue_game_path(game) %></td>
-        <td><%= link_to 'Delete', game, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td class="no-border"><%= link_to 'Continue', continue_game_path(game) %></td>
+        <td class="no-border"><%= link_to 'Delete', game, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>

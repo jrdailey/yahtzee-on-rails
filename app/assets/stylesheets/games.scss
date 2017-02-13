@@ -1,3 +1,151 @@
-// Place all the styles related to the games controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+$green: #227722;
+$dark-green: #004400;
+$white: #ffffff;
+
+@mixin die-background($position: 0 0) {
+  background: {
+    image: image-url('dice.png');
+    position: $position;
+    repeat: no-repeat;
+  }
+
+  height: 62px;
+  width: 62px;
+}
+
+@mixin clearfix {
+  &:after {
+    content: '';
+    display: table;
+    clear: both;
+  }
+}
+
+button,
+input[type=submit] {
+  background: $green;
+  color: $white;
+  cursor: pointer;
+}
+
+.new_game,
+.edit_game,
+.yahtzee-dice-container {
+  display: inline-block;
+  width: 49%;
+}
+
+.new_game,
+.edit_game {
+  input {
+    padding: 5px;
+  }
+  label {
+    font-size: 1.2rem;
+    padding-right: 10px;
+  }
+  input, label {
+    display: inline-block;
+  }
+  .score-note {
+    font-size: .6rem;
+  }
+}
+
+.yahtzee-dice-container {
+  margin-top: 50px;
+  vertical-align: top;
+
+  .yahtzee-dice {
+    float: left;
+    text-align: center;
+    @include clearfix();
+
+    button[name=roll-dice] {
+      padding: 10px 30px 10px 30px;
+
+      &:disabled {
+        background: $dark-green;
+      }
+    }
+  }
+}
+
+.die {
+  cursor: pointer;
+  display: inline-block;
+  margin-right: 5px;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0px;
+
+  td.no-border {
+    border: 0;
+  }
+
+  th, td {
+    border: 1px solid #000000;
+  }
+
+  th {
+    padding: 10px;
+    color: $white;
+    background: $green;
+  }
+}
+
+table.form-upper-section,
+table.form-lower-section {
+  margin-bottom: 10px;
+  width: 90%;
+
+  input[type=number] {
+    width: 12rem;
+  }
+  .play-button {
+    width: 5rem;
+  }
+}
+
+.die-one {
+  @include die-background(-1px -1px);
+}
+.die-two {
+  @include die-background(-65px -1px);
+}
+.die-three {
+  @include die-background(-129px -1px);
+}
+.die-four {
+  @include die-background(-193px -1px);
+}
+.die-five {
+  @include die-background(-257px -1px);
+}
+.die-six {
+  @include die-background(-321px -1px);
+}
+.held-die-one {
+  @include die-background(-1px -65px);
+}
+.held-die-two {
+  @include die-background(-65px -65px);
+}
+.held-die-three {
+  @include die-background(-129px -65px);
+}
+.held-die-four {
+  @include die-background(-193px -65px);
+}
+.held-die-five {
+  @include die-background(-257px -65px);
+}
+.held-die-six {
+  @include die-background(-321px -65px);
+}
+
+.play-button {
+  display: none;
+}
