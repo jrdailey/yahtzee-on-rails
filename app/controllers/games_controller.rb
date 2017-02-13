@@ -39,7 +39,7 @@ class GamesController < ApplicationController
   def destroy
     @game.destroy
     respond_to do |format|
-      format.html { redirect_to games_url, notice: 'Game was successfully destroyed.' }
+      format.html { redirect_to high_scores_path, notice: 'Game was successfully destroyed.' }
     end
   end
 
