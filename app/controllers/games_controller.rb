@@ -29,7 +29,7 @@ class GamesController < ApplicationController
   def update
     respond_to do |format|
       if @game.update(game_params)
-        format.html { redirect_to @game, notice: 'Game was successfully updated.' }
+        format.html { redirect_to high_scores_path, notice: 'Game was successfully updated.' }
       else
         format.html { render :edit }
       end
