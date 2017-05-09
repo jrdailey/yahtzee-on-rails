@@ -15,9 +15,9 @@ $white: #ffffff;
 
 @mixin clearfix {
   &:after {
+    clear: both;
     content: '';
     display: table;
-    clear: both;
   }
 }
 
@@ -90,9 +90,9 @@ table {
   }
 
   th {
-    padding: 10px;
-    color: $white;
     background: $green;
+    color: $white;
+    padding: 10px;
   }
 }
 
