@@ -5,7 +5,7 @@
     var self = this;
 
     self.rollNumber = 0;
-    self.usedPlays = [];
+    self.initUsedPlays();
 
     $('button[name=roll-dice]').click(function() {
       self.rollDice();
@@ -39,6 +39,18 @@
     });
 
     self.rollDice();
+  };
+
+  Game.initUsedPlays = function() {
+    var self = this;
+
+    self.usedPlays = [];
+
+    $('.play-input').each(function() {
+      if ($(this).val() || $(this).siblings('input.cross-out').is(':checked')) {
+        self.usedPlays.push($(this).attr('id').replace(/game_/, ''));
+      }
+    });
   };
 
   Game.handleEndGame = function() {
