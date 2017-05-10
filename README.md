@@ -13,5 +13,6 @@ This app was developed against Rails 5.0.1 and Ruby 2.4.0.
   - `rails s`
 - Navigate to http://localhost:3000 in your web browser
 
+testing...
 
 # yahtzee-on-rails
