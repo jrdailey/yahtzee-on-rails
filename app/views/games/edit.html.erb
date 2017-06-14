@@ -1,7 +1,9 @@
-<h1>Yahtzee</h1>
+<div class="score-sheet">
+  <h1 class="text-center">Yahtzee</h1>
 
-<%= render 'form', game: @game %>
+  <%= render 'form', game: @game %>
+</div>
 
 <%= render 'dice' %>
 
-<%= link_to 'Back', high_scores_path %>
+<%= link_to 'Back', high_scores_path, class: 'back-link' %>

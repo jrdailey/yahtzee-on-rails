@@ -4,6 +4,11 @@
   Game.init = function() {
     var self = this;
 
+    self.positionDice().always(function() {
+      $('.yahtzee-dice').show();
+    });
+    $(window).scroll(self.positionDice);
+
     self.rollNumber = 0;
     self.initUsedPlays();
 
@@ -32,13 +37,14 @@
           score = Yahtzee.Scorer.getScore(play);
 
       $(this).prop('disabled', 'disabled').hide();
-      $(this).siblings('input.cross-out').prop('disabled', 'disabled');
-      $(this).siblings('input#game_' + play).val(score).blur();
+      $(this).parents('td').find('input.cross-out').prop('disabled', 'disabled');
+      $(this).parents('td').find('input#game_' + play).val(score).blur();
 
       self.handleEndGame();
     });
 
     self.rollDice();
+    self.handleEndGame();
   };
 
   Game.initUsedPlays = function() {
@@ -47,11 +53,24 @@
     self.usedPlays = [];
 
     $('.play-input').each(function() {
-      if ($(this).val() || $(this).siblings('input.cross-out').is(':checked')) {
+      if ($(this).val() || $(this).parents('td').find('input.cross-out').is(':checked')) {
         self.usedPlays.push($(this).attr('id').replace(/game_/, ''));
+        $(this).parents('td').find('input.cross-out').prop('disabled', 'disabled');
       }
     });
   };
+
+  Game.positionDice = function() {
+    var diceDef = $.Deferred();
+
+    clearTimeout(this.scrollTimeout);
+    this.scrollTimeout = setTimeout(function() {
+      $('.yahtzee-dice').css('top', (window.pageYOffset + window.innerHeight / 2) - $('.yahtzee-dice').height() / 2);
+      diceDef.resolve();
+    }, 100);
+
+    return diceDef.promise();
+  }
 
   Game.handleEndGame = function() {
     if (this.isEndGame()) {

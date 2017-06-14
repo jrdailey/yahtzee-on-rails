@@ -21,131 +21,134 @@ $white: #ffffff;
   }
 }
 
-button,
-input[type=submit] {
-  background: $green;
-  color: $white;
-  cursor: pointer;
-}
+.yahtzee-app {
+  margin-left: 1rem;
 
-.new_game,
-.edit_game,
-.yahtzee-dice-container {
-  display: inline-block;
-  width: 49%;
-}
+  button,
+  input[type=submit] {
+    background: $green;
+    color: $white;
+    cursor: pointer;
+  }
 
-.new_game,
-.edit_game {
-  input {
-    padding: 5px;
-  }
-  label {
-    font-size: 1.2rem;
-    padding-right: 10px;
-  }
-  input, label {
+  .score-sheet,
+  .yahtzee-dice-container {
     display: inline-block;
+    width: 49%;
   }
-  .score-note {
-    font-size: .6rem;
+
+  .new_game,
+  .edit_game {
+    input {
+      padding: 5px;
+    }
+    label {
+      font-size: 1.2rem;
+      padding-right: 10px;
+    }
+    .score-note {
+      font-size: .6rem;
+    }
   }
-}
 
-.yahtzee-dice-container {
-  margin-top: 50px;
-  vertical-align: top;
+  .yahtzee-dice-container {
+    margin-top: 50px;
+    vertical-align: top;
 
-  .yahtzee-dice {
-    float: left;
-    text-align: center;
-    @include clearfix();
+    .yahtzee-dice {
+      float: left;
+      position: absolute;
+      text-align: center;
+      @include clearfix();
 
-    button[name=roll-dice] {
-      padding: 10px 30px 10px 30px;
+      button[name=roll-dice] {
+        padding: 10px 30px 10px 30px;
 
-      &:disabled {
-        background: $dark-green;
+        &:disabled {
+          background: $dark-green;
+        }
       }
     }
   }
-}
 
-.die {
-  cursor: pointer;
-  display: inline-block;
-  margin-right: 5px;
-}
-
-table {
-  border-collapse: collapse;
-  border-spacing: 0px;
-
-  td.no-border {
-    border: 0;
+  .die {
+    cursor: pointer;
+    display: inline-block;
+    margin-right: 5px;
   }
 
-  th, td {
-    border: 1px solid #000000;
+  table.form-upper-section,
+  table.form-lower-section {
+    margin-bottom: 1rem;
+    width: 90%;
+
+    td {
+      width: 50%;
+    }
+    input[type=number] {
+      width: 12rem;
+    }
+    .play-button {
+      width: 5rem;
+      margin-bottom: 1rem;
+    }
   }
 
-  th {
-    background: $green;
-    color: $white;
-    padding: 10px;
+  table.form-upper-section,
+  table.form-lower-section,
+  .score-sheet h1,
+  .player-name-field {
+    width: 90%;
   }
-}
 
-table.form-upper-section,
-table.form-lower-section {
-  margin-bottom: 10px;
-  width: 90%;
-
-  input[type=number] {
-    width: 12rem;
+  .player-name-field {
+    margin-bottom: 1rem;
   }
-  .play-button {
-    width: 5rem;
+
+  .die-one {
+    @include die-background(-1px -1px);
   }
-}
+  .die-two {
+    @include die-background(-65px -1px);
+  }
+  .die-three {
+    @include die-background(-129px -1px);
+  }
+  .die-four {
+    @include die-background(-193px -1px);
+  }
+  .die-five {
+    @include die-background(-257px -1px);
+  }
+  .die-six {
+    @include die-background(-321px -1px);
+  }
+  .held-die-one {
+    @include die-background(-1px -65px);
+  }
+  .held-die-two {
+    @include die-background(-65px -65px);
+  }
+  .held-die-three {
+    @include die-background(-129px -65px);
+  }
+  .held-die-four {
+    @include die-background(-193px -65px);
+  }
+  .held-die-five {
+    @include die-background(-257px -65px);
+  }
+  .held-die-six {
+    @include die-background(-321px -65px);
+  }
 
-.die-one {
-  @include die-background(-1px -1px);
-}
-.die-two {
-  @include die-background(-65px -1px);
-}
-.die-three {
-  @include die-background(-129px -1px);
-}
-.die-four {
-  @include die-background(-193px -1px);
-}
-.die-five {
-  @include die-background(-257px -1px);
-}
-.die-six {
-  @include die-background(-321px -1px);
-}
-.held-die-one {
-  @include die-background(-1px -65px);
-}
-.held-die-two {
-  @include die-background(-65px -65px);
-}
-.held-die-three {
-  @include die-background(-129px -65px);
-}
-.held-die-four {
-  @include die-background(-193px -65px);
-}
-.held-die-five {
-  @include die-background(-257px -65px);
-}
-.held-die-six {
-  @include die-background(-321px -65px);
-}
+  .play-button,
+  .yahtzee-dice {
+    display: none;
+  }
 
-.play-button {
-  display: none;
+  .back-link {
+    display: block;
+    margin-top: 1rem;
+  }
 }
